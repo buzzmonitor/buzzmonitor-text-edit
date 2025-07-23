@@ -8,6 +8,7 @@ from typing import Literal, Optional, Dict, Any
 from openai import OpenAI
 from dependencies import has_access
 from typing import Dict
+from utils import is_safe_to_edit
 
 def build_prompt(option: str, language: str, page: str) -> str:
 
@@ -79,7 +80,10 @@ def gpt_answer(
     prompt = build_prompt(option, language, page)
     if not prompt:
         return {"answer": text, "status_code": 400, "input_tokens": 0, "output_tokens": 0}
-
+    prompt_aux = {"pt_BR": ". Retorne somente o texto",
+                  "pt_PT": ". Retorne somente o texto",
+                  "es":    ". Retorne solo el texto",
+                  "en":    ". Return only the text"}.get(language, ". Retorne somente o texto")
     try:
         openai_client = OpenAI(
             api_key=account_open_ai_token,
@@ -88,7 +92,7 @@ def gpt_answer(
             model='gpt-4.1-nano',
             messages=[
                     {
-                    "content": f"{prompt}: {text}",
+                    "content": f"{prompt}. {prompt_aux}: {text}",
                     "role": "user"
                     }
             ],
@@ -167,6 +171,9 @@ class GPTResponse(BaseModel):
     dependencies=[Depends(has_access)]  
 )
 def gpt_answer_route(payload: GPTRequest) -> GPTResponse:
+    if not is_safe_to_edit(payload.text):
+        raise HTTPException(status_code=400, detail=f"Texto inválido '{payload.text}'!")
+    
     result = gpt_answer(
         text=payload.text,
         page=payload.page,
