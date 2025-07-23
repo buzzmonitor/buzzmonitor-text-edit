@@ -76,18 +76,10 @@ fi
 
 echo "loading env"
 
-# Verifica se o consumer já está rodando
-# if pgrep -f "python.*consumer.py" > /dev/null
-# then
-#     echo "consumer.py já está rodando."
-# else
-#     echo "Iniciando consumer.py..."
-#     python src/consumer.py &
-# fi
 
 echo "runing service" 
 
-# python -m gunicorn --bind :9090 --workers 3 --timeout 300 --chdir src/ src.api:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --log-file=$LOG_FILE --preload
-python -m gunicorn -c src/gunicorn.conf.py --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --preload
+python -m gunicorn --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --log-file=$LOG_FILE --preload
+# python -m gunicorn -c src/gunicorn.conf.py --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --preload
     
  
