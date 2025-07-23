@@ -10,4 +10,5 @@ clone this repo:
 run deploy script:
 
 > cd buzzmonitor-text-edit
+> 
 > ./run_server.sh
