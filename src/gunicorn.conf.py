@@ -13,12 +13,12 @@ logconfig_dict = {
         "graylog": {
             "class": "graypy.GELFUDPHandler",
             "host": "graylog.buzzmonitor.com.br",
-            #"port": ,
+            "port": 32424,
         },
     },
     "formatters": {
     "detailed": {
-        "format": "[buzzmonitor-text-edit] %(asctime)s - %(levelname)s - %(name)s - %(message)s",
+        "format": "[ai-text-edit] %(asctime)s - %(levelname)s - %(name)s - %(message)s",
     }
     },
     "root": {
