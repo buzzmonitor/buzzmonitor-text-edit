@@ -9,9 +9,6 @@ from openai import OpenAI
 from dependencies import has_access
 from typing import Dict
 
-print("TODO: Pedir openai token padrão que já existe no projeto; \nPedir porta e facility já existente no graylog")
-
-
 def build_prompt(option: str, language: str, page: str) -> str:
 
     if option == "make_shorter":
@@ -116,6 +113,8 @@ def gpt_answer(
 # -----------------------  FASTAPI BOILERPLATE  --------------------
 # ------------------------------------------------------------------
 app = FastAPI(
+    docs_url=None,  # Desativa docs padrão
+    redoc_url=None,  # Desativa redoc padrão
     title="Buzzmonitor Text Edit API",
     version="1.0.0",
     description="Serviço que faz chamadas à OpenAI para encurtar, "
@@ -125,6 +124,17 @@ app = FastAPI(
 @app.get("/alive")
 def alive():
     return "alive"
+
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.openapi.utils import get_openapi
+
+@app.get("/docs", include_in_schema=False)
+def get_documentation(auth=Depends(has_access)):
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Buzzmonitor Text Edit API Docs")
+
+@app.get("/openapi.json", include_in_schema=False)
+def openapi(auth=Depends(has_access)):
+    return get_openapi(title=app.title, version=app.version, description=app.description, routes=app.routes)
 
 
 
