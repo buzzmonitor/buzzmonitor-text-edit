@@ -121,6 +121,11 @@ app = FastAPI(
     description="Serviço que faz chamadas à OpenAI para encurtar, "
                 "estender ou aprimorar textos dependendo do idioma."
 )
+@app.head("/alive")
+@app.get("/alive")
+def alive():
+    return "alive"
+
 
 
 # -----------  Esquemas Pydantic para request / response -----------
