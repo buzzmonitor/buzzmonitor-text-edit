@@ -103,11 +103,11 @@ def gpt_answer(
         answer = completion.choices[0].message.content
 
     except requests.RequestException as exc:
-        logger.error(f"Erro de requisição para OpenAI API: {exc}")
+        logger.error(f"[ai-text-edit] Erro de requisição para OpenAI API: {exc}")
         return {"answer": text, "status_code": 500, "input_tokens": 0, "output_tokens": 0}
 
     logger.info(
-        f"[GPT USE] User {user_master_commercial_email} ({user_commercial_email}) consumed {input_tokens} input tokens and {output_tokens} output tokens.",
+        f"[ai-text-edit] User {user_master_commercial_email} ({user_commercial_email}) consumed {input_tokens} input tokens and {output_tokens} output tokens.",
      )
     return {"answer": answer, "status_code": 200, "input_tokens": input_tokens, "output_tokens": output_tokens}
 
