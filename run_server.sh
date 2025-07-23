@@ -79,7 +79,7 @@ echo "loading env"
 
 echo "runing service" 
 
-python -m gunicorn --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --log-file=$LOG_FILE --preload
-# python -m gunicorn -c src/gunicorn.conf.py --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --preload
+# python -m gunicorn --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --log-file=$LOG_FILE --preload
+python -m gunicorn -c src/gunicorn.conf.py --bind :9090 --workers 3 --timeout 300 --chdir src/ src.app:app --worker-class uvicorn.workers.UvicornH11Worker --capture-output --log-level=$LOG_LEVEL --pid=$PID_FILE --preload
     
  
